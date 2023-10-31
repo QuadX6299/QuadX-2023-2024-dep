@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto.Vision;
+package org.firstinspires.ftc.teamcode.Auto;
 
 
 import android.util.Size;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Auto.SafetyAutos;
 
-public class BlueAuto2 {
+public class BluePark2 {
 }
