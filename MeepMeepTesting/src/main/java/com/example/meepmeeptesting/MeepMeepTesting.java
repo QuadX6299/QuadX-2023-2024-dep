@@ -14,20 +14,34 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 20)
                 .followTrajectorySequence(drive ->
 
+                        /*
                         //BluePark1
-                        drive.trajectorySequenceBuilder(new Pose2d(-35, 61, Math.toRadians(-90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(-35, 60.5, Math.toRadians(-90)))
                                         .forward(49)
                                         .strafeLeft(95)
                                         .build()
-
+                        */
 
                         /*
                         //RedPark1
-                        drive.trajectorySequenceBuilder(new Pose2d(-35, -61, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(-35, -60.5, Math.toRadians(90)))
                                 .forward(49)
                                 .strafeRight(95)
                                 .build()
                          */
+
+                        /*
+                        //BluePark2
+                        drive.trajectorySequenceBuilder(new Pose2d(12, 60.5, Math.toRadians(-90)))
+                                .strafeLeft(48)
+                                .build()
+                        */
+
+                        //RedPark2
+                        drive.trajectorySequenceBuilder(new Pose2d(12, -60.5, Math.toRadians(90)))
+                                .strafeRight(48)
+                                .build()
+
                 );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_OFFICIAL)
