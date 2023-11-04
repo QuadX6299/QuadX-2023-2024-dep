@@ -23,10 +23,10 @@ public abstract class NewTeleOp extends OpMode {
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
 
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        fr.setDirection(DcMotor.Direction.FORWARD);
-        bl.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.FORWARD);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -42,8 +42,8 @@ public abstract class NewTeleOp extends OpMode {
 
     public void mechMovement() {
         float drive = -gamepad1.left_stick_y;
-        float turn = gamepad1.right_stick_x;
-        float strafe = -gamepad1.left_stick_x;
+        float turn = -gamepad1.right_stick_x;
+        float strafe = gamepad1.left_stick_x;
         float intakeSpeed = 0;
         double liftSpeed = 0;
 
@@ -53,17 +53,17 @@ public abstract class NewTeleOp extends OpMode {
         double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
 
 
-        if (gamepad1.right_trigger > 0.0) {
+        if (gamepad2.right_trigger > 0.0) {
             liftSpeed = 0.25;
-        } else if (gamepad1.left_trigger > 0.0) {
+        } else if (gamepad2.left_trigger > 0.0) {
             liftSpeed = -0.25;
         } else {
                 liftSpeed = 0;
         }
 
-        if (gamepad1.right_bumper) {
+        if (gamepad2.right_bumper) {
             intakeSpeed = 1;
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad2.left_bumper) {
             intakeSpeed = -1;
         } else {
             intakeSpeed = 0;
