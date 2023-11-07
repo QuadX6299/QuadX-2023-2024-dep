@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 public abstract class NewTeleOp extends OpMode {
@@ -13,6 +14,8 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor intake;
     private DcMotor liftLeft;
     private DcMotor liftRight;
+    private Servo servoLeftLinkage;
+    private Servo servoRightLinkage;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -22,6 +25,8 @@ public abstract class NewTeleOp extends OpMode {
         intake = hardwareMap.dcMotor.get("intakeMotor");
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
+        servoLeftLinkage = hardwareMap.servo.get("servoLeftLinkage");
+        servoRightLinkage = hardwareMap.servo.get("servoRightLinkage");
 
         fl.setDirection(DcMotor.Direction.REVERSE);
         fr.setDirection(DcMotor.Direction.FORWARD);
@@ -54,9 +59,9 @@ public abstract class NewTeleOp extends OpMode {
 
 
         if (gamepad1.right_trigger > 0.0) {
-            liftSpeed = 0.25;
+            liftSpeed = 1;
         } else if (gamepad1.left_trigger > 0.0) {
-            liftSpeed = -0.25;
+            liftSpeed = -1;
         } else {
                 liftSpeed = 0;
         }
@@ -67,6 +72,14 @@ public abstract class NewTeleOp extends OpMode {
             intakeSpeed = -1;
         } else {
             intakeSpeed = 0;
+        }
+
+        if (gamepad1.y) {
+            servoLeftLinkage.setPosition(15);
+            servoRightLinkage.setPosition(-15);
+        } else if (gamepad1.x) {
+            servoLeftLinkage.setPosition(0);
+            servoRightLinkage.setPosition(0);
         }
 
         fl.setPower(flPower);
