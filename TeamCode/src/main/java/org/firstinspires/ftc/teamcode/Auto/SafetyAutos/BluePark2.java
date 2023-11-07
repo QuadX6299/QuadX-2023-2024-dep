@@ -69,6 +69,13 @@ public class BluePark2 extends LinearOpMode {
         br.setPower(1);
     }
 
+    public void stopMotors() {
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         init(this);
@@ -92,13 +99,7 @@ public class BluePark2 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-        forwards();
-        sleep(70);
-        fl.setPower(1);
-        fr.setPower(-1);
-        sleep(50);
-        strafeLeft();
-        sleep(1200);
+
     }
 }
 
