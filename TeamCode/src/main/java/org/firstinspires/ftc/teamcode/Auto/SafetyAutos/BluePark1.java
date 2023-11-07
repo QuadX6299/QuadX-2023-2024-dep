@@ -95,9 +95,6 @@ public class BluePark1 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-        forwards();
-        sleep(70);
-        stopMotors();
 
     }
 }
