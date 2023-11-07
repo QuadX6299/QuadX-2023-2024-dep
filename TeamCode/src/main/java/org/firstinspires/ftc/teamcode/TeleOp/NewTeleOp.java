@@ -14,8 +14,8 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor intake;
     private DcMotor liftLeft;
     private DcMotor liftRight;
-    private Servo servoLeftLinkage;
-    private Servo servoRightLinkage;
+    private Servo servoLeftLinkageBack;
+    private Servo servoRightLinkageBack;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -25,8 +25,8 @@ public abstract class NewTeleOp extends OpMode {
         intake = hardwareMap.dcMotor.get("intakeMotor");
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
-        servoLeftLinkage = hardwareMap.servo.get("servoLeftLinkage");
-        servoRightLinkage = hardwareMap.servo.get("servoRightLinkage");
+        servoLeftLinkageBack = hardwareMap.servo.get("servoLeftLinkageBack");
+        servoRightLinkageBack = hardwareMap.servo.get("servoRightLinkageBack");
 
         fl.setDirection(DcMotor.Direction.REVERSE);
         fr.setDirection(DcMotor.Direction.FORWARD);
@@ -46,7 +46,7 @@ public abstract class NewTeleOp extends OpMode {
     }
 
     public void mechMovement() {
-        float drive = -gamepad1.left_stick_y;
+        float drive = gamepad1.left_stick_y;
         float turn = gamepad1.right_stick_x;
         float strafe = -gamepad1.left_stick_x;
         float intakeSpeed = 0;
@@ -57,13 +57,12 @@ public abstract class NewTeleOp extends OpMode {
         double blPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
         double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
 
-
         if (gamepad1.right_trigger > 0.0) {
             liftSpeed = 1;
         } else if (gamepad1.left_trigger > 0.0) {
             liftSpeed = -1;
         } else {
-                liftSpeed = 0;
+            liftSpeed = 0;
         }
 
         if (gamepad1.right_bumper) {
@@ -75,11 +74,13 @@ public abstract class NewTeleOp extends OpMode {
         }
 
         if (gamepad1.y) {
-            servoLeftLinkage.setPosition(15);
-            servoRightLinkage.setPosition(-15);
-        } else if (gamepad1.x) {
-            servoLeftLinkage.setPosition(0);
-            servoRightLinkage.setPosition(0);
+            servoLeftLinkageBack.setPosition(-90);
+            servoRightLinkageBack.setPosition(-90);
+        }
+
+        if (gamepad1.x) {
+            servoLeftLinkageBack.setPosition(0);
+            servoRightLinkageBack.setPosition(0);
         }
 
         fl.setPower(flPower);

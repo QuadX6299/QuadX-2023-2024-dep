@@ -68,6 +68,13 @@ public class RedPark2 extends LinearOpMode {
         br.setPower(1);
     }
 
+    public void stopMotors() {
+        fl.setPower(0);
+        fr.setPower(0);
+        bl.setPower(0);
+        br.setPower(0);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
         init(this);
@@ -91,10 +98,7 @@ public class RedPark2 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-        forwards();
-        sleep(70);
-        strafeRight();
-        sleep(1100);
+
     }
 }
 
