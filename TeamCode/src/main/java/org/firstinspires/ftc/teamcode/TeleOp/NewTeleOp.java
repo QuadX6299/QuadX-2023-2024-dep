@@ -16,6 +16,7 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor liftRight;
     private Servo servoLeftLinkageBack;
     private Servo servoRightLinkageBack;
+    private Servo servoOuttake;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -27,11 +28,12 @@ public abstract class NewTeleOp extends OpMode {
         liftRight = hardwareMap.dcMotor.get("liftRight");
         servoLeftLinkageBack = hardwareMap.servo.get("servoLeftLinkageBack");
         servoRightLinkageBack = hardwareMap.servo.get("servoRightLinkageBack");
+        servoOuttake = hardwareMap.servo.get("servoOuttake");
 
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        fr.setDirection(DcMotor.Direction.FORWARD);
-        bl.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.FORWARD);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.REVERSE);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -74,13 +76,19 @@ public abstract class NewTeleOp extends OpMode {
         }
 
         if (gamepad1.y) {
-            servoLeftLinkageBack.setPosition(-90);
-            servoRightLinkageBack.setPosition(-90);
+            servoLeftLinkageBack.setPosition(90);
+            servoRightLinkageBack.setPosition(90);
         }
 
         if (gamepad1.x) {
             servoLeftLinkageBack.setPosition(0);
             servoRightLinkageBack.setPosition(0);
+        }
+
+        if (gamepad1.a) {
+            servoOuttake.setPosition(-90);
+        } else if (gamepad1.b) {
+            servoOuttake.setPosition(0);
         }
 
         fl.setPower(flPower);

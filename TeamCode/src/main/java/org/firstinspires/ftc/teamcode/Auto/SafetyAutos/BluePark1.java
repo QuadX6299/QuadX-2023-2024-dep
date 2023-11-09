@@ -19,10 +19,10 @@ public class BluePark1 extends LinearOpMode {
         bl = opMode.hardwareMap.dcMotor.get("bl");
         br = opMode.hardwareMap.dcMotor.get("br");
 
-        fl.setDirection(DcMotor.Direction.REVERSE);
-        fr.setDirection(DcMotor.Direction.FORWARD);
-        bl.setDirection(DcMotor.Direction.REVERSE);
-        br.setDirection(DcMotor.Direction.FORWARD);
+        fl.setDirection(DcMotor.Direction.FORWARD);
+        fr.setDirection(DcMotor.Direction.REVERSE);
+        bl.setDirection(DcMotor.Direction.FORWARD);
+        br.setDirection(DcMotor.Direction.REVERSE);
 
         fl.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         fr.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -73,6 +73,20 @@ public class BluePark1 extends LinearOpMode {
         br.setPower(0);
     }
 
+    public void Left() {
+        fl.setPower(1);
+        fr.setPower(0);
+        bl.setPower(1);
+        br.setPower(0);
+    }
+
+    public void Right() {
+        fl.setPower(0);
+        fr.setPower(1);
+        bl.setPower(0);
+        br.setPower(1);
+    }
+
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -95,6 +109,10 @@ public class BluePark1 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-
+        forwards();
+        sleep(1000);
+        strafeLeft();
+        sleep(1500);
+        stopMotors();
     }
 }
