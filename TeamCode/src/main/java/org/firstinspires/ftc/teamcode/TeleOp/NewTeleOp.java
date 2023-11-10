@@ -16,7 +16,7 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor liftRight;
     private Servo servoLeftLinkageBack;
     private Servo servoRightLinkageBack;
-    private Servo servoOuttake;
+    //private Servo servoOuttake;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -28,7 +28,7 @@ public abstract class NewTeleOp extends OpMode {
         liftRight = hardwareMap.dcMotor.get("liftRight");
         servoLeftLinkageBack = hardwareMap.servo.get("servoLeftLinkageBack");
         servoRightLinkageBack = hardwareMap.servo.get("servoRightLinkageBack");
-        servoOuttake = hardwareMap.servo.get("servoOuttake");
+        //servoOuttake = hardwareMap.servo.get("servoOuttake");
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
@@ -85,11 +85,13 @@ public abstract class NewTeleOp extends OpMode {
             servoRightLinkageBack.setPosition(0);
         }
 
+        /*
         if (gamepad1.a) {
             servoOuttake.setPosition(-90);
         } else if (gamepad1.b) {
             servoOuttake.setPosition(0);
         }
+        */
 
         fl.setPower(flPower);
         fr.setPower(frPower);
