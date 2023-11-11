@@ -14,9 +14,7 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor intake;
     private DcMotor liftLeft;
     private DcMotor liftRight;
-    private Servo servoLeftLinkageBack;
-    private Servo servoRightLinkageBack;
-    //private Servo servoOuttake;
+    private Servo servoOuttake;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -26,9 +24,7 @@ public abstract class NewTeleOp extends OpMode {
         intake = hardwareMap.dcMotor.get("intakeMotor");
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
-        servoLeftLinkageBack = hardwareMap.servo.get("servoLeftLinkageBack");
-        servoRightLinkageBack = hardwareMap.servo.get("servoRightLinkageBack");
-        //servoOuttake = hardwareMap.servo.get("servoOuttake");
+        servoOuttake = hardwareMap.servo.get("servoOuttake");
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
@@ -48,9 +44,9 @@ public abstract class NewTeleOp extends OpMode {
     }
 
     public void mechMovement() {
-        float drive = gamepad1.left_stick_y;
-        float turn = gamepad1.right_stick_x;
-        float strafe = -gamepad1.left_stick_x;
+        float drive = -gamepad1.left_stick_y;
+        float turn = -gamepad1.right_stick_x;
+        float strafe = gamepad1.left_stick_x;
         float intakeSpeed = 0;
         double liftSpeed = 0;
 
@@ -59,39 +55,29 @@ public abstract class NewTeleOp extends OpMode {
         double blPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
         double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
 
-        if (gamepad1.right_trigger > 0.0) {
+        if (gamepad2.right_trigger > 0.0) {
             liftSpeed = 1;
-        } else if (gamepad1.left_trigger > 0.0) {
+        } else if (gamepad2.left_trigger > 0.0) {
             liftSpeed = -1;
         } else {
             liftSpeed = 0;
         }
 
-        if (gamepad1.right_bumper) {
+        if (gamepad2.right_bumper) {
             intakeSpeed = 1;
-        } else if (gamepad1.left_bumper) {
+        } else if (gamepad2.left_bumper) {
             intakeSpeed = -1;
         } else {
             intakeSpeed = 0;
         }
 
-        if (gamepad1.y) {
-            servoLeftLinkageBack.setPosition(90);
-            servoRightLinkageBack.setPosition(90);
+        if (gamepad2.a) {
+            servoOuttake.setPosition(0.6);
+            telemetry.addData("Servo position: ", servoOuttake.getPosition());
+        } else if (gamepad2.b) {
+            servoOuttake.setPosition(0.75);
+            telemetry.addData("Servo position", servoOuttake.getPosition());
         }
-
-        if (gamepad1.x) {
-            servoLeftLinkageBack.setPosition(0);
-            servoRightLinkageBack.setPosition(0);
-        }
-
-        /*
-        if (gamepad1.a) {
-            servoOuttake.setPosition(-90);
-        } else if (gamepad1.b) {
-            servoOuttake.setPosition(0);
-        }
-        */
 
         fl.setPower(flPower);
         fr.setPower(frPower);
