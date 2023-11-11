@@ -55,6 +55,20 @@ public abstract class NewTeleOp extends OpMode {
         double blPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
         double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
 
+        if (gamepad1.right_trigger > 0.0) {
+            flPower *= 0.5;
+            frPower *= 0.5;
+            blPower *= 0.5;
+            brPower *= 0.5;
+        }
+
+        if (gamepad1.left_trigger > 0.0) {
+            flPower *= 0.25;
+            frPower *= 0.25;
+            blPower *= 0.25;
+            brPower *= 0.25;
+        }
+
         if (gamepad2.right_trigger > 0.0) {
             liftSpeed = 1;
         } else if (gamepad2.left_trigger > 0.0) {
