@@ -47,8 +47,8 @@ public abstract class NewTeleOp extends OpMode {
         float drive = -gamepad1.left_stick_y;
         float turn = -gamepad1.right_stick_x;
         float strafe = gamepad1.left_stick_x;
-        float intakeSpeed = 0;
-        double liftSpeed = 0;
+        float intakeSpeed;
+        double liftSpeed;
 
         double flPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
         double frPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
@@ -86,7 +86,7 @@ public abstract class NewTeleOp extends OpMode {
         }
 
         if (gamepad2.a) {
-            servoOuttake.setPosition(0.6);
+            servoOuttake.setPosition(0.63);
             telemetry.addData("Servo position: ", servoOuttake.getPosition());
         } else if (gamepad2.b) {
             servoOuttake.setPosition(0.75);
