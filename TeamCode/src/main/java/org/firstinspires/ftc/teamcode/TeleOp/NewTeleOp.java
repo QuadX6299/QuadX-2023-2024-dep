@@ -14,7 +14,9 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor intake;
     private DcMotor liftLeft;
     private DcMotor liftRight;
-    private Servo servoOuttake;
+    private Servo servoLeftLinkageBack;
+    private Servo servoRightLinkageBack;
+    //private Servo servoOuttake;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -24,7 +26,9 @@ public abstract class NewTeleOp extends OpMode {
         intake = hardwareMap.dcMotor.get("intakeMotor");
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
-        servoOuttake = hardwareMap.servo.get("servoOuttake");
+        servoLeftLinkageBack = hardwareMap.servo.get("servoLeftLinkageBack");
+        servoRightLinkageBack = hardwareMap.servo.get("servoRightLinkageBack");
+        //servoOuttake = hardwareMap.servo.get("servoOuttake");
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
@@ -44,30 +48,16 @@ public abstract class NewTeleOp extends OpMode {
     }
 
     public void mechMovement() {
-        float drive = -gamepad1.left_stick_y;
+        float drive = gamepad1.left_stick_y;
         float turn = -gamepad1.right_stick_x;
         float strafe = gamepad1.left_stick_x;
-        float intakeSpeed;
-        double liftSpeed;
+        float intakeSpeed = 0;
+        double liftSpeed = 0;
 
         double flPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
         double frPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
         double blPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
         double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
-
-        if (gamepad1.right_trigger > 0.0) {
-            flPower *= 0.5;
-            frPower *= 0.5;
-            blPower *= 0.5;
-            brPower *= 0.5;
-        }
-
-        if (gamepad1.left_trigger > 0.0) {
-            flPower *= 0.25;
-            frPower *= 0.25;
-            blPower *= 0.25;
-            brPower *= 0.25;
-        }
 
         if (gamepad2.right_trigger > 0.0) {
             liftSpeed = 1;
@@ -85,13 +75,23 @@ public abstract class NewTeleOp extends OpMode {
             intakeSpeed = 0;
         }
 
-        if (gamepad2.a) {
-            servoOuttake.setPosition(0.63);
-            telemetry.addData("Servo position: ", servoOuttake.getPosition());
-        } else if (gamepad2.b) {
-            servoOuttake.setPosition(0.75);
-            telemetry.addData("Servo position", servoOuttake.getPosition());
+        if (gamepad2.y) {
+            servoLeftLinkageBack.setPosition(90);
+            servoRightLinkageBack.setPosition(90);
         }
+
+        if (gamepad2.x) {
+            servoLeftLinkageBack.setPosition(0);
+            servoRightLinkageBack.setPosition(0);
+        }
+
+        /*
+        if (gamepad1.a) {
+            servoOuttake.setPosition(-90);
+        } else if (gamepad1.b) {
+            servoOuttake.setPosition(0);
+        }
+        */
 
         fl.setPower(flPower);
         fr.setPower(frPower);
