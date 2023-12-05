@@ -11,7 +11,7 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor fr;
     private DcMotor bl;
     private DcMotor br;
-    //private DcMotor intake;
+    private DcMotor intake;
     private DcMotor liftLeft;
     private DcMotor liftRight;
     private Servo servoOuttake;
@@ -21,7 +21,7 @@ public abstract class NewTeleOp extends OpMode {
         fr = hardwareMap.dcMotor.get("fr");
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
-        //intake = hardwareMap.dcMotor.get("intakeMotor");
+        intake = hardwareMap.dcMotor.get("intakeMotor");
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
         servoOuttake = hardwareMap.servo.get("servoOuttake");
@@ -30,7 +30,7 @@ public abstract class NewTeleOp extends OpMode {
         fr.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.FORWARD);
         br.setDirection(DcMotor.Direction.REVERSE);
-        //intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -38,16 +38,16 @@ public abstract class NewTeleOp extends OpMode {
         fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void mechMovement() {
-        float drive = gamepad1.left_stick_y;
+        float drive = -gamepad1.left_stick_y;
         float turn = -gamepad1.right_stick_x;
         float strafe = gamepad1.left_stick_x;
-        //float intakeSpeed;
+        float intakeSpeed;
         double liftSpeed;
 
         double flPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
@@ -77,7 +77,6 @@ public abstract class NewTeleOp extends OpMode {
             liftSpeed = 0;
         }
 
-        /*
         if (gamepad2.right_bumper) {
             intakeSpeed = 1;
         } else if (gamepad2.left_bumper) {
@@ -85,26 +84,20 @@ public abstract class NewTeleOp extends OpMode {
         } else {
             intakeSpeed = 0;
         }
-        */
 
         if (gamepad2.a) {
-            servoOuttake.setPosition(0.68);
+            servoOuttake.setPosition(0.63);
             telemetry.addData("Servo position: ", servoOuttake.getPosition());
         } else if (gamepad2.b) {
-            servoOuttake.setPosition(0);
+            servoOuttake.setPosition(0.75);
             telemetry.addData("Servo position", servoOuttake.getPosition());
-        }
-
-        if (gamepad2.x) {
-            liftSpeed = 1;
-            loop();
         }
 
         fl.setPower(flPower);
         fr.setPower(frPower);
         bl.setPower(blPower);
         br.setPower(brPower);
-        //intake.setPower(intakeSpeed);
+        intake.setPower(intakeSpeed);
         liftLeft.setPower(liftSpeed);
         liftRight.setPower(liftSpeed);
     }
