@@ -89,6 +89,7 @@ public class BluePark1 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        init(this);
 
         fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         newOp.idle();
@@ -109,8 +110,6 @@ public class BluePark1 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-        forwards();
-        sleep(1000);
         strafeLeft();
         sleep(1500);
         stopMotors();

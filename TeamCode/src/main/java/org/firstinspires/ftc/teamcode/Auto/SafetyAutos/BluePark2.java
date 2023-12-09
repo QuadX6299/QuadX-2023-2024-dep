@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Auto.SafetyAutos;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous(name = "BluePark2", group = "Concept")
 
@@ -41,32 +40,36 @@ public class BluePark2 extends LinearOpMode {
         newOp.idle();
     }
 
-    public void forwards() {
+    public void backwards(long x) {
         fl.setPower(1);
         fr.setPower(1);
         bl.setPower(1);
         br.setPower(1);
+        sleep(x);
     }
 
-    public void backwards() {
-        fl.setPower(0);
-        fr.setPower(1);
-        bl.setPower(0);
-        br.setPower(1);
+    public void forwards(long x) {
+        fl.setPower(-1);
+        fr.setPower(-1);
+        bl.setPower(-1);
+        br.setPower(-1);
+        sleep(x);
     }
 
-    public void strafeLeft() {
+    public void strafeLeft(long x) {
         fl.setPower(-1);
         fr.setPower(1);
         bl.setPower(1);
         br.setPower(-1);
+        sleep(x);
     }
 
-    public void strafeRight() {
+    public void strafeRight(long x) {
         fl.setPower(1);
         fr.setPower(-1);
         bl.setPower(-1);
         br.setPower(1);
+        sleep(x);
     }
 
     public void stopMotors() {
@@ -76,18 +79,20 @@ public class BluePark2 extends LinearOpMode {
         br.setPower(0);
     }
 
-    public void Left() {
+    public void Left(long x) {
         fl.setPower(1);
-        fr.setPower(0);
+        fr.setPower(-1);
         bl.setPower(1);
-        br.setPower(0);
+        br.setPower(-1);
+        sleep(x);
     }
 
-    public void Right() {
+    public void Right(long x) {
         fl.setPower(0);
         fr.setPower(1);
         bl.setPower(0);
         br.setPower(1);
+        sleep(x);
     }
 
     @Override
@@ -113,14 +118,11 @@ public class BluePark2 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-        forwards();
-        sleep(75);
-        Left();
-        sleep(30);
-        strafeLeft();
-        sleep(1500);
-        Right();
-        sleep(20);
+        forwards(1000);
+        Left(300);
+        forwards(1600);
+        Left(75);
+        forwards(150);
         stopMotors();
     }
 }

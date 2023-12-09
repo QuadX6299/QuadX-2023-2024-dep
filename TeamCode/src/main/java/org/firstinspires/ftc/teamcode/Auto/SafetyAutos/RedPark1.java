@@ -41,16 +41,16 @@ public class RedPark1 extends LinearOpMode {
     }
 
     public void forwards() {
-        fl.setPower(1);
-        fr.setPower(1);
-        bl.setPower(1);
-        br.setPower(1);
+        fl.setPower(-1);
+        fr.setPower(-1);
+        bl.setPower(-1);
+        br.setPower(-1);
     }
 
     public void backwards() {
-        fl.setPower(0);
+        fl.setPower(1);
         fr.setPower(1);
-        bl.setPower(0);
+        bl.setPower(1);
         br.setPower(1);
     }
 
@@ -112,8 +112,6 @@ public class RedPark1 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
-        forwards();
-        sleep(1000);
         strafeRight();
         sleep(1500);
         stopMotors();
