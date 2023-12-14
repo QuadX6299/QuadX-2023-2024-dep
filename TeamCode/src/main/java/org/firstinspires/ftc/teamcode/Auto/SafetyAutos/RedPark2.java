@@ -119,6 +119,7 @@ public class RedPark2 extends LinearOpMode {
         newOp.idle();
 
         waitForStart();
+        sleep(10000);
         forwards(1000);
         Right(300);
         forwards(1500);

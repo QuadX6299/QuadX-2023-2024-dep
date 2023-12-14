@@ -89,7 +89,7 @@ public abstract class NewTeleOp extends OpMode {
             servoOuttake.setPosition(0.4);
             telemetry.addData("Servo position: ", servoOuttake.getPosition());
         } else if (gamepad2.b) {
-            servoOuttake.setPosition(0.70);
+            servoOuttake.setPosition(0.7);
             telemetry.addData("Servo position", servoOuttake.getPosition());
         }
 
