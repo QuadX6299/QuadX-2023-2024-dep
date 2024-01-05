@@ -36,8 +36,8 @@ public class DriveConstants {
     public static final boolean RUN_USING_ENCODER = true;
     //public static final boolean RUN_USING_ENCODER = true;
 
-    //kF or F = 0
-    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(0, 0, 0,
+    //kF or F = 16
+    public static PIDFCoefficients MOTOR_VELO_PID = new PIDFCoefficients(13, 0, 5,
             getMotorVelocityF(MAX_RPM / 60 * TICKS_PER_REV));
 
     /*
@@ -52,7 +52,7 @@ public class DriveConstants {
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
     //during straight test, robot moved less then what x said so gear ratio by measured distance divided by the reported x value
     //0.92869209166
-    public static double TRACK_WIDTH = 14.60; // in
+    public static double TRACK_WIDTH = 14.6; // in
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -60,7 +60,7 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kV = 1.0;
+    public static double kV = 1.0 / rpmToVelocity(MAX_RPM);
     public static double kA = 0;
     public static double kStatic = 0;
 
@@ -71,11 +71,11 @@ public class DriveConstants {
      * small and gradually increase them later after everything is working. All distance units are
      * inches.
      */
-    public static double MAX_VEL = 78.97707995304066;
+    public static double MAX_VEL = 80;
     public static double MAX_ACCEL = 30;
-    public static double MAX_ANG_VEL = Math.toRadians(180);
+    public static double MAX_ANG_VEL = Math.toRadians(141.5499987594275);
     //public static double MAX_ANG_VEL = Math.toRadians(60);
-    public static double MAX_ANG_ACCEL = Math.toRadians(180);
+    public static double MAX_ANG_ACCEL = Math.toRadians(141.5499987594275);
 
     /*
      * Adjust the orientations here to match your robot. See the FTC SDK documentation for details.
