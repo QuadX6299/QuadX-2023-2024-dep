@@ -16,6 +16,7 @@ public abstract class NewTeleOp extends OpMode {
     private DcMotor liftRight;
     private Servo servoOuttake;
 
+
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
         fr = hardwareMap.dcMotor.get("fr");
@@ -26,10 +27,10 @@ public abstract class NewTeleOp extends OpMode {
         liftRight = hardwareMap.dcMotor.get("liftRight");
         servoOuttake = hardwareMap.servo.get("servoOuttake");
 
-        fl.setDirection(DcMotor.Direction.FORWARD);
-        fr.setDirection(DcMotor.Direction.REVERSE);
-        bl.setDirection(DcMotor.Direction.FORWARD);
-        br.setDirection(DcMotor.Direction.REVERSE);
+        fl.setDirection(DcMotor.Direction.REVERSE);
+        fr.setDirection(DcMotor.Direction.FORWARD);
+        bl.setDirection(DcMotor.Direction.REVERSE);
+        br.setDirection(DcMotor.Direction.FORWARD);
         intake.setDirection(DcMotorSimple.Direction.FORWARD);
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -44,7 +45,7 @@ public abstract class NewTeleOp extends OpMode {
     }
 
     public void mechMovement() {
-        float drive = gamepad1.left_stick_y;
+        float drive = -gamepad1.left_stick_y;
         float turn = -gamepad1.right_stick_x;
         float strafe = gamepad1.left_stick_x;
         float intakeSpeed;
