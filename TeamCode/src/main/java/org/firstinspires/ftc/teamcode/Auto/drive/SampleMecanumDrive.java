@@ -25,6 +25,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.MAX_ACCEL;
 import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.MAX_ANG_ACCEL;
 import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.MAX_ANG_VEL;
@@ -49,6 +51,9 @@ import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.encoderTi
 import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.kA;
 import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.kStatic;
 import static org.firstinspires.ftc.teamcode.Auto.drive.DriveConstants.kV;
+import static java.lang.Thread.sleep;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /*
  * Simple mecanum drive hardware implementation for REV hardware.
@@ -79,6 +84,15 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private List<Integer> lastEncPositions = new ArrayList<>();
     private List<Integer> lastEncVels = new ArrayList<>();
+
+    private DcMotor fl;
+    private DcMotor fr;
+    private DcMotor bl;
+    private DcMotor br;
+    private DcMotor intake;
+    private DcMotor liftLeft;
+    private DcMotor liftRight;
+    private Servo servoOuttake;
 
     public SampleMecanumDrive(HardwareMap hardwareMap) {
         super(kV, kA, kStatic, TRACK_WIDTH, TRACK_WIDTH, LATERAL_MULTIPLIER);
@@ -139,6 +153,45 @@ public class SampleMecanumDrive extends MecanumDrive {
                 follower, HEADING_PID, batteryVoltageSensor,
                 lastEncPositions, lastEncVels, lastTrackingEncPositions, lastTrackingEncVels
         );
+    }
+    public void init() {
+        intake = hardwareMap.dcMotor.get("intakeMotor");
+        liftLeft = hardwareMap.dcMotor.get("liftLeft");
+        liftRight = hardwareMap.dcMotor.get("liftRight");
+        servoOuttake = hardwareMap.servo.get("servoOuttake");
+
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void intakeMethod(String dir, long intakeTime) throws InterruptedException {
+        if (dir.equals("out")) {
+            intake.setPower(-1);
+        }
+        if (dir.equals("in")) {
+            intake.setPower(1);
+        }
+        sleep(intakeTime);
+        intake.setPower(0);
+    }
+
+    public void liftMethod(String updown, long liftTime) throws InterruptedException {
+        if (updown.equals("up")){
+            liftLeft.setPower(1);
+            liftRight.setPower(1);
+        }
+        if (updown.equals("down")){
+            liftLeft.setPower(-1);
+            liftRight.setPower(-1);
+        }
+        sleep(liftTime);
+        liftLeft.setPower(0);
+        liftRight.setPower(0);
     }
 
     public TrajectoryBuilder trajectoryBuilder(Pose2d startPose) {

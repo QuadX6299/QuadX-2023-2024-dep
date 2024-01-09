@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Auto.Vision.OpenCV;
+
 @Autonomous(name = "BluePark1", group = "Concept")
 
 public class BluePark1 extends LinearOpMode {
