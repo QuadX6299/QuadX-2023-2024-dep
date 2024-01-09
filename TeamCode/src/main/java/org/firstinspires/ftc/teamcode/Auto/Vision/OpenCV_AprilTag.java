@@ -13,6 +13,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 @TeleOp
 public class OpenCV_AprilTag extends LinearOpMode {
+    private static final int TARGET_TAG_ID = 2;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -32,26 +33,37 @@ public class OpenCV_AprilTag extends LinearOpMode {
 
         waitForStart();
 
-        while (!isStarted() && opModeIsActive()){
+        while (!isStarted() && opModeIsActive()) {
 
-
+            // Clear previous telemetry
+            telemetry.clear();
 
             if (tagProcessor.getDetections().size() > 0) {
-                AprilTagDetection tag = tagProcessor.getDetections().get(0);
+                // Iterate through detections and find the one with the desired tag ID
+                AprilTagDetection targetTag = null;
 
+                for (AprilTagDetection tag : tagProcessor.getDetections()) {
+                    if (tag.id == TARGET_TAG_ID) {
+                        targetTag = tag;
+                        break; // Exit the loop once the target tag is found
+                    }
+                }
 
-                telemetry.addData("x" , tag.ftcPose.x);
-                telemetry.addData("y" , tag.ftcPose.y);
-                telemetry.addData("z" , tag.ftcPose.z);
-                telemetry.addData("roll" , tag.ftcPose.roll);
-                telemetry.addData("pitch" , tag.ftcPose.pitch);
-                telemetry.addData("yaw" , tag.ftcPose.yaw);
-
+                if (targetTag != null) {
+                    telemetry.addData("Target Tag Detected", true);
+                    telemetry.addData("Tag ID", targetTag.id);
+                    telemetry.addData("x", targetTag.ftcPose.x);
+                    telemetry.addData("y", targetTag.ftcPose.y);
+                    telemetry.addData("z", targetTag.ftcPose.z);
+                    telemetry.addData("roll", targetTag.ftcPose.roll);
+                    telemetry.addData("pitch", targetTag.ftcPose.pitch);
+                    telemetry.addData("yaw", targetTag.ftcPose.yaw);
+                } else {
+                    telemetry.addLine("No matching AprilTag found");
+                }
+            } else {
+                telemetry.addLine("No AprilTags found");
             }
-            else {
-                telemetry.addLine("Nothing found");
-            }
-            telemetry.addLine("Nothing found");
 
             telemetry.update();
         }
