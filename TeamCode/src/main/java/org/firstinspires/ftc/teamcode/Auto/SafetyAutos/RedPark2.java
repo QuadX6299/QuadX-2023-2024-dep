@@ -13,7 +13,6 @@ public class RedPark2 extends LinearOpMode {
     private DcMotor bl;
     private DcMotor br;
 
-
     public void init(LinearOpMode opMode) throws InterruptedException {
         newOp = opMode;
         fl = opMode.hardwareMap.dcMotor.get("fl");
@@ -40,8 +39,7 @@ public class RedPark2 extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         newOp.idle();
     }
-
-    public void backwards(long x) {
+    public void forwards(long x) {
         fl.setPower(1);
         fr.setPower(1);
         bl.setPower(1);
@@ -49,7 +47,7 @@ public class RedPark2 extends LinearOpMode {
         sleep(x);
     }
 
-    public void forwards(long x) {
+    public void backwards(long x) {
         fl.setPower(-1);
         fr.setPower(-1);
         bl.setPower(-1);
@@ -82,9 +80,9 @@ public class RedPark2 extends LinearOpMode {
 
     public void Left(long x) {
         fl.setPower(1);
-        fr.setPower(0);
+        fr.setPower(-1);
         bl.setPower(1);
-        br.setPower(0);
+        br.setPower(-1);
         sleep(x);
     }
 
@@ -99,32 +97,12 @@ public class RedPark2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         init(this);
-
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-
-        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-
         waitForStart();
-        sleep(10000);
         forwards(1000);
         Right(300);
-        forwards(1500);
+        forwards(1600);
         Right(75);
-        forwards(110);
+        forwards(150);
         stopMotors();
     }
 }

@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-public abstract class NewTeleOp extends OpMode {
+public abstract class TestTeleOp extends OpMode {
     private DcMotor fl;
     private DcMotor fr;
     private DcMotor bl;
@@ -53,8 +53,8 @@ public abstract class NewTeleOp extends OpMode {
 
         double flPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
         double frPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
-        double blPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
-        double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
+        double blPower = Range.clip(drive + turn - (0.5 * strafe), -1.0, 1.0);
+        double brPower = Range.clip(drive - turn + (0.5 * strafe), -1.0, 1.0);
 
         if (gamepad1.right_trigger > 0.0) {
             flPower *= 0.5;
@@ -103,3 +103,4 @@ public abstract class NewTeleOp extends OpMode {
         liftRight.setPower(liftSpeed);
     }
 }
+
