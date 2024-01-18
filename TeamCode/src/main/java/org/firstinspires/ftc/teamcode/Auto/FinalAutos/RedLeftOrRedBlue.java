@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Auto.drive.SampleMecanumDrive;
 
-@Autonomous(name = "RedBlue", group = "Concept")
+@Autonomous(name = "RedLeftTest", group = "Concept")
 
-public class RedBlue extends LinearOpMode {
+public class RedLeftOrRedBlue extends LinearOpMode {
     private DcMotor liftLeft;
     private DcMotor liftRight;
     private Servo servoOuttake;
@@ -44,7 +44,7 @@ public class RedBlue extends LinearOpMode {
                 .strafeRight(30)
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .forward(34)
+                .forward(40)
                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
                 .forward(100)
@@ -52,13 +52,13 @@ public class RedBlue extends LinearOpMode {
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
                 .forward(35)
                 .build();
-        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
-                .back(10.5)
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(-86))), false)
+                .back(21)
                 .addTemporalMarker(2, () -> {
                     et.reset();
                     while (et.milliseconds() < 50) {
-                        liftLeft.setPower(0.5);
-                        liftRight.setPower(0.5);
+                        liftLeft.setPower(0.6);
+                        liftRight.setPower(0.6);
                     }
                 })
                 .build();
