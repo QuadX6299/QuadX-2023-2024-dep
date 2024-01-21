@@ -8,6 +8,7 @@ public class TestTeleOpRunner extends TestTeleOp {
     public void loop() {
         mechMovement();
         telemetry.update();
+
     }
 }
 
