@@ -9,19 +9,21 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.videoio.Videoio;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-@Autonomous
+@Autonomous(name = "Vision", group = "Concept")
 public class OpenCV extends OpMode {
 
     OpenCvWebcam webcam1 = null;
 
     @Override
     public void init() {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam1 = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
@@ -76,12 +78,12 @@ public class OpenCV extends OpMode {
             rightavgfin = rightavg.val[0];
 
 
-            if (leftavgfin > 126 && rightavgfin < 126) {
+            if ((leftavgfin < 126 && leftavgfin > 125.6) && (rightavgfin < 123 && rightavgfin > 122.5)) {
                 telemetry.addLine("Center");
                 telemetry.addData("leftavgfin", leftavgfin);
                 telemetry.addData("rightavgfin", rightavgfin);
                 Imgproc.rectangle(outPut, rightRect, found, 2);
-            } else if (leftavgfin < 126 && rightavgfin > 126)
+            } else if ((leftavgfin < 124.2 && leftavgfin > 123.7) && (rightavgfin < 125 && rightavgfin > 124.6))
             {
                 telemetry.addLine("Left");
                 telemetry.addData("leftavgfin", leftavgfin);

@@ -10,9 +10,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Auto.drive.SampleMecanumDrive;
 
-@Autonomous(name = "BlueBlue", group = "Concept")
+@Autonomous(name = "RedBlue", group = "Concept")
 
-public class BlueBlue extends LinearOpMode {
+public class RedBlue extends LinearOpMode {
     private DcMotor liftLeft;
     private DcMotor liftRight;
     private Servo servoOuttake;
@@ -41,19 +41,22 @@ public class BlueBlue extends LinearOpMode {
                 .back(10)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeRight(40)
+                .strafeRight(30)
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeLeft(10)
+                .forward(40)
                 .build();
-        Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .forward(3)
+        Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
+                .forward(96)
                 .build();
-        Trajectory traj7 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
-                .back(23)
+        Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
+                .forward(38)
+                .build();
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(-86))), false)
+                .back(18.5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
-                    while (et.milliseconds() < 55) {
+                    while (et.milliseconds() < 65) {
                         liftLeft.setPower(0.6);
                         liftRight.setPower(0.6);
                     }
@@ -67,7 +70,7 @@ public class BlueBlue extends LinearOpMode {
                 .build();
         Trajectory traj11 = drive.trajectoryBuilder(traj8.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .forward(6.5)
-                .addTemporalMarker(1, () -> {
+                .addTemporalMarker(1.5, () -> {
                     servoOuttake.setPosition(0.4);
                 })
                 .build();
@@ -75,14 +78,14 @@ public class BlueBlue extends LinearOpMode {
                 .forward(4)
                 .addTemporalMarker(1, () -> {
                     et.reset();
-                    while (et.milliseconds() < 65) {
+                    while (et.milliseconds() < 55) {
                         liftLeft.setPower(-0.5);
                         liftRight.setPower(-0.5);
                     }
                 })
                 .build();
         Trajectory traj13 = drive.trajectoryBuilder(traj12.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeRight(40)
+                .strafeLeft(40)
                 .build();
         Trajectory traj14 = drive.trajectoryBuilder(traj13.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .back(30)
@@ -94,6 +97,7 @@ public class BlueBlue extends LinearOpMode {
         drive.followTrajectory(traj3);
         drive.followTrajectory(traj4);
         drive.followTrajectory(traj5);
+        drive.followTrajectory(traj6);
         drive.followTrajectory(traj7);
         sleep(1000);
         drive.followTrajectory(traj8);
