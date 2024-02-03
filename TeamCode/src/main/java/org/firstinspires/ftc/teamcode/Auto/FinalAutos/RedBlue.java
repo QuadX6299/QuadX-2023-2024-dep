@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.Auto.drive.SampleMecanumDrive;
 
 @Autonomous(name = "RedBlue", group = "Concept")
@@ -36,7 +35,7 @@ public class RedBlue extends LinearOpMode {
         Pose2d startPose = new Pose2d(-60, 36, Math.toRadians(0));
         drive.setPoseEstimate(startPose);
         Trajectory traj1 = drive.trajectoryBuilder(startPose, false)
-                .forward(35)
+                .forward(33.5)
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .back(10)
@@ -45,34 +44,51 @@ public class RedBlue extends LinearOpMode {
                 .strafeRight(30)
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .forward(34)
+                .forward(40)
                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
-                .forward(100)
+                .forward(96)
                 .build();
-        Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeLeft(35)
+        Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
+                .forward(38)
                 .build();
-        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(180))), false)
-                .back(14)
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(-86))), false)
+                .back(18.5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
-                    while (et.milliseconds() < 500) {
-                        liftLeft.setPower(1);
-                        liftRight.setPower(1);
+                    while (et.milliseconds() < 65) {
+                        liftLeft.setPower(0.6);
+                        liftRight.setPower(0.6);
                     }
                 })
                 .build();
         Trajectory traj8 = drive.trajectoryBuilder(traj7.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .back(1)
                 .addTemporalMarker(2, () -> {
+                    servoOuttake.setPosition(0.75);
+                })
+                .build();
+        Trajectory traj11 = drive.trajectoryBuilder(traj8.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .forward(6.5)
+                .addTemporalMarker(1.5, () -> {
                     servoOuttake.setPosition(0.4);
                 })
                 .build();
-        Trajectory traj9 = drive.trajectoryBuilder(traj8.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .forward(10)
+        Trajectory traj12 = drive.trajectoryBuilder(traj11.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .forward(4)
                 .addTemporalMarker(1, () -> {
-                    servoOuttake.setPosition(0.75);
+                    et.reset();
+                    while (et.milliseconds() < 55) {
+                        liftLeft.setPower(-0.5);
+                        liftRight.setPower(-0.5);
+                    }
                 })
+                .build();
+        Trajectory traj13 = drive.trajectoryBuilder(traj12.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .strafeLeft(40)
+                .build();
+        Trajectory traj14 = drive.trajectoryBuilder(traj13.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .back(30)
                 .build();
 
         waitForStart();
@@ -85,13 +101,9 @@ public class RedBlue extends LinearOpMode {
         drive.followTrajectory(traj7);
         sleep(1000);
         drive.followTrajectory(traj8);
-        drive.followTrajectory(traj8);
-        sleep(1000);
-        drive.followTrajectory(traj9);
-        et.reset();
-        while (et.milliseconds() < 500) {
-            liftLeft.setPower(-1);
-            liftRight.setPower(-1);
-        }
+        drive.followTrajectory(traj11);
+        drive.followTrajectory(traj12);
+        drive.followTrajectory(traj13);
+        drive.followTrajectory(traj14);
     }
 }

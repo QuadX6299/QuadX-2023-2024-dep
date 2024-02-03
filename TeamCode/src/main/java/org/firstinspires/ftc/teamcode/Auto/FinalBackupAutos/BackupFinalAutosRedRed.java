@@ -31,10 +31,10 @@ public class BackupFinalAutosRedRed extends LinearOpMode {
                 .forward(35)
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .back(30)
+                .back(35)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeLeft(40)
+                .strafeLeft(70)
                 .build();
 
         waitForStart();

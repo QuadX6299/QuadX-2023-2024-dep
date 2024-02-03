@@ -5,6 +5,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.LED;
+
+
+
 
 public abstract class TestTeleOp extends OpMode {
     private DcMotor fl;
@@ -17,6 +21,7 @@ public abstract class TestTeleOp extends OpMode {
     private Servo servoOuttake;
 
 
+
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
         fr = hardwareMap.dcMotor.get("fr");
@@ -26,6 +31,7 @@ public abstract class TestTeleOp extends OpMode {
         liftLeft = hardwareMap.dcMotor.get("liftLeft");
         liftRight = hardwareMap.dcMotor.get("liftRight");
         servoOuttake = hardwareMap.servo.get("servoOuttake");
+
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
@@ -102,5 +108,6 @@ public abstract class TestTeleOp extends OpMode {
         liftLeft.setPower(liftSpeed);
         liftRight.setPower(liftSpeed);
     }
+
 }
 
