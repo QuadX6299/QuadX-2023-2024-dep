@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Auto.drive.SampleMecanumDrive;
-
-@Autonomous (name = "RedRight", group = "Concept")
+//TODO - Test this one
+@Autonomous (name = "RedRed", group = "Concept")
 
 public class RedRed extends LinearOpMode {
 
@@ -20,7 +20,7 @@ public class RedRed extends LinearOpMode {
         drive.setPoseEstimate(startPose);
 
         Trajectory traj1 = drive.trajectoryBuilder(startPose, false)
-                .forward(5)
+                .forward(25)
                 .build();
 
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)

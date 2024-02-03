@@ -20,7 +20,6 @@ public class RedPark1 extends LinearOpMode {
         bl = opMode.hardwareMap.dcMotor.get("bl");
         br = opMode.hardwareMap.dcMotor.get("br");
 
-
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.FORWARD);
@@ -40,33 +39,36 @@ public class RedPark1 extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         newOp.idle();
     }
-
-    public void forwards() {
-        fl.setPower(-1);
-        fr.setPower(-1);
-        bl.setPower(-1);
-        br.setPower(-1);
-    }
-
-    public void backwards() {
+    public void forwards(long x) {
         fl.setPower(1);
         fr.setPower(1);
         bl.setPower(1);
         br.setPower(1);
+        sleep(x);
     }
 
-    public void strafeLeft() {
+    public void backwards(long x) {
+        fl.setPower(-1);
+        fr.setPower(-1);
+        bl.setPower(-1);
+        br.setPower(-1);
+        sleep(x);
+    }
+
+    public void strafeLeft(long x) {
         fl.setPower(-1);
         fr.setPower(1);
         bl.setPower(1);
         br.setPower(-1);
+        sleep(x);
     }
 
-    public void strafeRight() {
+    public void strafeRight(long x) {
         fl.setPower(1);
         fr.setPower(-1);
         bl.setPower(-1);
         br.setPower(1);
+        sleep(x);
     }
 
     public void stopMotors() {
@@ -76,45 +78,28 @@ public class RedPark1 extends LinearOpMode {
         br.setPower(0);
     }
 
-    public void Left() {
+    public void Left(long x) {
         fl.setPower(1);
-        fr.setPower(0);
+        fr.setPower(-1);
         bl.setPower(1);
-        br.setPower(0);
+        br.setPower(-1);
+        sleep(x);
     }
 
-    public void Right() {
-        fl.setPower(0);
+    public void Right(long x) {
+        fl.setPower(-1);
         fr.setPower(1);
-        bl.setPower(0);
+        bl.setPower(-1);
         br.setPower(1);
+        sleep(x);
     }
 
     @Override
     public void runOpMode() throws InterruptedException {
         init(this);
-
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-
-        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-
         waitForStart();
-        strafeRight();
-        sleep(1500);
+        forwards(1000);
+        strafeRight(1500);
         stopMotors();
     }
 }

@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Auto.Vision.OpenCV;
-
 @Autonomous(name = "BluePark1", group = "Concept")
 
 public class BluePark1 extends LinearOpMode {
@@ -41,32 +39,36 @@ public class BluePark1 extends LinearOpMode {
         br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         newOp.idle();
     }
-    public void forwards() {
+    public void forwards(long x) {
         fl.setPower(1);
         fr.setPower(1);
         bl.setPower(1);
         br.setPower(1);
+        sleep(x);
     }
 
-    public void backwards() {
-        fl.setPower(0);
-        fr.setPower(1);
-        bl.setPower(0);
-        br.setPower(1);
+    public void backwards(long x) {
+        fl.setPower(-1);
+        fr.setPower(-1);
+        bl.setPower(-1);
+        br.setPower(-1);
+        sleep(x);
     }
 
-    public void strafeLeft() {
+    public void strafeLeft(long x) {
         fl.setPower(-1);
         fr.setPower(1);
         bl.setPower(1);
         br.setPower(-1);
+        sleep(x);
     }
 
-    public void strafeRight() {
+    public void strafeRight(long x) {
         fl.setPower(1);
         fr.setPower(-1);
         bl.setPower(-1);
         br.setPower(1);
+        sleep(x);
     }
 
     public void stopMotors() {
@@ -76,45 +78,28 @@ public class BluePark1 extends LinearOpMode {
         br.setPower(0);
     }
 
-    public void Left() {
+    public void Left(long x) {
         fl.setPower(1);
-        fr.setPower(0);
+        fr.setPower(-1);
         bl.setPower(1);
-        br.setPower(0);
+        br.setPower(-1);
+        sleep(x);
     }
 
-    public void Right() {
-        fl.setPower(0);
+    public void Right(long x) {
+        fl.setPower(-1);
         fr.setPower(1);
-        bl.setPower(0);
+        bl.setPower(-1);
         br.setPower(1);
+        sleep(x);
     }
 
     @Override
     public void runOpMode() throws InterruptedException {
         init(this);
-
-        fl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        fr.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        bl.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-        br.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        newOp.idle();
-
-        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        newOp.idle();
-
         waitForStart();
-        strafeLeft();
-        sleep(1500);
+        forwards(1000);
+        strafeLeft(1500);
         stopMotors();
     }
 }
