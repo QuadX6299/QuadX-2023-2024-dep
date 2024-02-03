@@ -10,15 +10,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Auto.drive.SampleMecanumDrive;
 
-@Autonomous(name = "RedRightOrRedRed", group = "Concept")
+@Autonomous(name = "RedBlue", group = "Concept")
 
-public class RedRedOrRedRight extends LinearOpMode {
+public class RedBlue extends LinearOpMode {
     private DcMotor liftLeft;
     private DcMotor liftRight;
     private Servo servoOuttake;
     ElapsedTime et = new ElapsedTime();
-
-    public void init(LinearOpMode opMode) throws InterruptedException {
+    public void init (LinearOpMode opMode) throws InterruptedException {
         liftLeft = opMode.hardwareMap.dcMotor.get("liftLeft");
         liftRight = opMode.hardwareMap.dcMotor.get("liftRight");
         servoOuttake = opMode.hardwareMap.servo.get("servoOuttake");
@@ -30,46 +29,68 @@ public class RedRedOrRedRight extends LinearOpMode {
         liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException{
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         init(this);
         Pose2d startPose = new Pose2d(-60, 36, Math.toRadians(0));
         drive.setPoseEstimate(startPose);
         Trajectory traj1 = drive.trajectoryBuilder(startPose, false)
-                .forward(35)
+                .forward(33.5)
                 .build();
         Trajectory traj2 = drive.trajectoryBuilder(traj1.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .back(10)
                 .build();
-        Trajectory traj3 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(90))), false)
-                .back(42)
+        Trajectory traj3 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .strafeRight(30)
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .back(1)
+                .forward(40)
+                .build();
+        Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
+                .forward(96)
+                .build();
+        Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(-90))), false)
+                .forward(38)
+                .build();
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(-86))), false)
+                .back(18.5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
-                    while (et.milliseconds() < 250) {
+                    while (et.milliseconds() < 65) {
                         liftLeft.setPower(0.6);
                         liftRight.setPower(0.6);
                     }
                 })
                 .build();
-        Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeRight(3)
-                .build();
-        Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+        Trajectory traj8 = drive.trajectoryBuilder(traj7.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .back(1)
                 .addTemporalMarker(2, () -> {
                     servoOuttake.setPosition(0.75);
                 })
                 .build();
-        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .forward(2)
-                .addTemporalMarker(2, () -> {
-                    servoOuttake.setPosition(0.75);
+        Trajectory traj11 = drive.trajectoryBuilder(traj8.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .forward(6.5)
+                .addTemporalMarker(1.5, () -> {
+                    servoOuttake.setPosition(0.4);
                 })
                 .build();
+        Trajectory traj12 = drive.trajectoryBuilder(traj11.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .forward(4)
+                .addTemporalMarker(1, () -> {
+                    et.reset();
+                    while (et.milliseconds() < 55) {
+                        liftLeft.setPower(-0.5);
+                        liftRight.setPower(-0.5);
+                    }
+                })
+                .build();
+        Trajectory traj13 = drive.trajectoryBuilder(traj12.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .strafeLeft(40)
+                .build();
+        Trajectory traj14 = drive.trajectoryBuilder(traj13.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .back(30)
+                .build();
+
         waitForStart();
         drive.followTrajectory(traj1);
         drive.followTrajectory(traj2);
@@ -78,7 +99,11 @@ public class RedRedOrRedRight extends LinearOpMode {
         drive.followTrajectory(traj5);
         drive.followTrajectory(traj6);
         drive.followTrajectory(traj7);
-//Nice.
-
+        sleep(1000);
+        drive.followTrajectory(traj8);
+        drive.followTrajectory(traj11);
+        drive.followTrajectory(traj12);
+        drive.followTrajectory(traj13);
+        drive.followTrajectory(traj14);
     }
 }
