@@ -100,7 +100,10 @@ public abstract class NewTeleOp extends OpMode {
         }
 
 
-        if(gamepad2.x){
+        if(gamepad1.x){ //Launch the paper airplane
+            Launcher.setPosition(1);
+        }
+        if(gamepad1.y){
             Launcher.setPosition(0);
         }
 
@@ -128,10 +131,11 @@ public abstract class NewTeleOp extends OpMode {
         if(gamepad2.dpad_right){
             LEDS.setPosition(0.7725); //White
         }
-        if(gamepad2.back){
+        if(gamepad2.left_stick_button){
             LEDS.setPosition(0.775); //Off Position
         }
 
+        /*
         if(gamepad2.left_stick_x > 0.5){  //White-White Pulse. (Right)
             time.reset();
             while (time.milliseconds() < 1500) {
@@ -208,5 +212,6 @@ public abstract class NewTeleOp extends OpMode {
             }
 
         }
-}
+         */
+    }
 }

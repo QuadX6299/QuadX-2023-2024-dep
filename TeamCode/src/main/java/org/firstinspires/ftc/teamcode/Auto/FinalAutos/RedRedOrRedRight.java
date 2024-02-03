@@ -43,20 +43,29 @@ public class RedRedOrRedRight extends LinearOpMode {
                 .back(10)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(90))), false)
-                .back(43)
+                .back(42)
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .back(1)
-                .addTemporalMarker(4, () -> {
+                .addTemporalMarker(2, () -> {
                     et.reset();
-                    while (et.milliseconds() < 50) {
+                    while (et.milliseconds() < 250) {
                         liftLeft.setPower(0.6);
                         liftRight.setPower(0.6);
                     }
                 })
                 .build();
         Trajectory traj5 = drive.trajectoryBuilder(traj4.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .strafeRight(3)
+                .build();
+        Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .back(1)
+                .addTemporalMarker(2, () -> {
+                    servoOuttake.setPosition(0.75);
+                })
+                .build();
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
+                .forward(2)
                 .addTemporalMarker(2, () -> {
                     servoOuttake.setPosition(0.75);
                 })
@@ -67,6 +76,8 @@ public class RedRedOrRedRight extends LinearOpMode {
         drive.followTrajectory(traj3);
         drive.followTrajectory(traj4);
         drive.followTrajectory(traj5);
+        drive.followTrajectory(traj6);
+        drive.followTrajectory(traj7);
 //Nice.
 
     }
