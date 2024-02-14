@@ -20,11 +20,11 @@ public class VisionTest extends LinearOpMode {
 
         while (currTime < 1000) {
             currTime = timer.milliseconds();
-            pos = huskey.propPos();
+            pos = huskey.bluePropPos();
         }
 
 
-        telemetry.addData("Position: ", pos);
+        telemetry.addData("Position:", pos);
         telemetry.update();
 
         while (!isStarted() || isStopRequested()){

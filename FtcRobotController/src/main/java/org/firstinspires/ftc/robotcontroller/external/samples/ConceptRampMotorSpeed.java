@@ -109,6 +109,5 @@ public class ConceptRampMotorSpeed extends LinearOpMode {
         motor.setPower(0);
         telemetry.addData(">", "Done");
         telemetry.update();
-
     }
 }
