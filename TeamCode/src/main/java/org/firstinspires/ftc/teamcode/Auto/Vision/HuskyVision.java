@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class HuskyVision extends LinearOpMode {
     HuskyLens huskyLens;
-    private int cx = 0;
+    private int cy = 0;
 
     public HuskyVision(LinearOpMode opMode) throws InterruptedException {
         huskyLens = opMode.hardwareMap.get(HuskyLens.class, "huskyLens");
@@ -15,9 +15,12 @@ public class HuskyVision extends LinearOpMode {
         huskyLens.selectAlgorithm(HuskyLens.Algorithm.COLOR_RECOGNITION);
             for (HuskyLens.Block b : huskyLens.blocks()) {
                 if (b.id == 1) {
-                    cx = b.x;
+                    cy = b.y;
+                }
+                else if (b.id == 2) {
+                    cy = -b.y;
                 } else {
-                    cx = -1;
+                    cy = -1;
                 }
             }
 //        if (cx < 85){
@@ -32,9 +35,9 @@ public class HuskyVision extends LinearOpMode {
 //        else {
 //            return "null";
 //        }
-        return cx;
+        return cy;
     }
-
+    /*
     public String redPropPos(){
         for (HuskyLens.Block b : huskyLens.blocks()){
             if (b.id == 2){
@@ -57,7 +60,7 @@ public class HuskyVision extends LinearOpMode {
             return "null";
         }
     }
-
+    */
     @Override
     public void runOpMode() throws InterruptedException {
     }
