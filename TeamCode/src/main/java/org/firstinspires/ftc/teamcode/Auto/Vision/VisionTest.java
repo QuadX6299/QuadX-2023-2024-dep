@@ -11,19 +11,14 @@ public class VisionTest extends LinearOpMode {
 
     HuskyVision huskey;
     private ElapsedTime timer = new ElapsedTime();
-    private int pos = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
         huskey = new HuskyVision(this);
+        int pos =  10;
         double currTime = 0;
 
-        while (currTime < 1000) {
-            currTime = timer.milliseconds();
-            pos = huskey.bluePropPos();
-        }
-
-
+        pos = huskey.propPos();
         telemetry.addData("Position:", pos);
         telemetry.update();
 
