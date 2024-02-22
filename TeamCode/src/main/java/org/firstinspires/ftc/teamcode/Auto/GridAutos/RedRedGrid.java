@@ -122,7 +122,7 @@ public class RedRedGrid extends LinearOpMode {
         //omni
         Pose2d aPose = new Pose2d(57, -32, Math.toRadians(180));
         Trajectory traj5 = drive.trajectoryBuilder(aPose)
-                .back(7)
+                .back(5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
                     while (et.milliseconds() < 500) {
@@ -158,7 +158,8 @@ public class RedRedGrid extends LinearOpMode {
                 .back(15)
                 .build();
 
-        int num = husky.propPos();
+
+        int num = husky.redPropPos();
         telemetry.addData("Pos", num);
         telemetry.update();
 

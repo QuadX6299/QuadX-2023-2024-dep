@@ -47,13 +47,13 @@ public class BlueBlueGrid extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         // Right Spike
         Trajectory rtraj1 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(38, 36), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(30, 36), Math.toRadians(-90))
                 .addTemporalMarker(1.5, () -> {
                     intake.setPower(-0.4);
                 })
                 .build();
         Trajectory rtraj2 = drive.trajectoryBuilder(rtraj1.end(), false)
-                .lineToConstantHeading(new Vector2d(38, 60))
+                .lineToConstantHeading(new Vector2d(30, 60))
                 .addDisplacementMarker(() -> {
                     intake.setPower(0);
                 })
@@ -88,7 +88,7 @@ public class BlueBlueGrid extends LinearOpMode {
                 })
                 .build();
         Trajectory midtraj4 = drive.trajectoryBuilder(midtraj3.end())
-                .forward(4)
+                .forward(8)
                 .build();
 
         Trajectory otraj = drive.trajectoryBuilder(startPose)
@@ -100,7 +100,7 @@ public class BlueBlueGrid extends LinearOpMode {
 
         //Left Spike
         Trajectory ltraj1 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(38, 36), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(30, 36), Math.toRadians(-90))
                 .build();
         TrajectorySequence lts1 = drive.trajectorySequenceBuilder(ltraj1.end())
                 .turn(Math.toRadians(-90))
@@ -122,7 +122,7 @@ public class BlueBlueGrid extends LinearOpMode {
         //omni
         Pose2d aPose = new Pose2d(57, 32, Math.toRadians(180));
         Trajectory traj5 = drive.trajectoryBuilder(aPose)
-                .back(7)
+                .back(5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
                     while (et.milliseconds() < 500) {
@@ -158,13 +158,13 @@ public class BlueBlueGrid extends LinearOpMode {
                 .back(15)
                 .build();
 
-        int num = husky.propPos();
+        int num = husky.bluePropPos();
         telemetry.addData("Pos", num);
         telemetry.update();
 
         waitForStart();
 
-        if((num < 0) && (num > -100)) {
+        /*if((num < 0) && (num > -100)) {
             drive.followTrajectory(midtraj1);
             sleep(300);
             drive.followTrajectory(midtraj2);
@@ -181,8 +181,14 @@ public class BlueBlueGrid extends LinearOpMode {
             drive.followTrajectorySequence(lts1);
             drive.followTrajectory(ltraj2);
             drive.followTrajectory(ltraj3);
-        }
+            }
+        */
 
+        drive.followTrajectory(midtraj1);
+        sleep(300);
+        drive.followTrajectory(midtraj2);
+        drive.followTrajectory(midtraj3);
+        drive.followTrajectory(midtraj4);
         drive.followTrajectory(traj5);
         drive.followTrajectory(traj6);
         drive.followTrajectory(traj7);

@@ -56,9 +56,9 @@ public class RedBlue extends LinearOpMode {
                 .back(18.5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
-                    while (et.milliseconds() < 65) {
-                        liftLeft.setPower(0.6);
-                        liftRight.setPower(0.6);
+                    while (et.milliseconds() < 500) {
+                        liftLeft.setPower(1);
+                        liftRight.setPower(1);
                     }
                 })
                 .build();

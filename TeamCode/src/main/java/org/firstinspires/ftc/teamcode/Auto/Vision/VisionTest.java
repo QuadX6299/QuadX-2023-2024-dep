@@ -18,7 +18,7 @@ public class VisionTest extends LinearOpMode {
         int pos =  10;
         double currTime = 0;
 
-        pos = huskey.propPos();
+        pos = huskey.bluePropPos();
         telemetry.addData("Position:", pos);
         telemetry.update();
 
