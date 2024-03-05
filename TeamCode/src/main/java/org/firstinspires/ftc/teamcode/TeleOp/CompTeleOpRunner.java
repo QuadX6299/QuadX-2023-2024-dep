@@ -3,11 +3,11 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name="TestTeleOpRunner", group="Iterative OpMode")
+@TeleOp(name="CompTeleOpRunner", group="Iterative OpMode")
 
-public class TestTeleOpRunner extends TestTeleOp {
+public class CompTeleOpRunner extends CompTeleOp {
     public void loop() {
-        testMovement();
+        mechMovement();
         telemetry.update();
     }
 }

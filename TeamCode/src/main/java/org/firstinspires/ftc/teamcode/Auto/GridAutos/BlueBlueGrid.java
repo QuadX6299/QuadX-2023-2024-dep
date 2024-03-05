@@ -47,7 +47,7 @@ public class BlueBlueGrid extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         // Right Spike
         Trajectory rtraj1 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(30, 36), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(30, 43), Math.toRadians(-90))
                 .addTemporalMarker(1.5, () -> {
                     intake.setPower(-0.4);
                 })
@@ -100,7 +100,7 @@ public class BlueBlueGrid extends LinearOpMode {
 
         //Left Spike
         Trajectory ltraj1 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(30, 36), Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(30, 43), Math.toRadians(-90))
                 .build();
         TrajectorySequence lts1 = drive.trajectorySequenceBuilder(ltraj1.end())
                 .turn(Math.toRadians(-90))
@@ -122,7 +122,7 @@ public class BlueBlueGrid extends LinearOpMode {
         //omni
         Pose2d aPose = new Pose2d(57, 32, Math.toRadians(180));
         Trajectory traj5 = drive.trajectoryBuilder(aPose)
-                .back(5)
+                .back(2)
                 .addTemporalMarker(2, () -> {
                     et.reset();
                     while (et.milliseconds() < 500) {
@@ -164,7 +164,7 @@ public class BlueBlueGrid extends LinearOpMode {
 
         waitForStart();
 
-        /*if((num < 0) && (num > -100)) {
+        if((num < 0) && (num > -100)) {
             drive.followTrajectory(midtraj1);
             sleep(300);
             drive.followTrajectory(midtraj2);
@@ -182,13 +182,7 @@ public class BlueBlueGrid extends LinearOpMode {
             drive.followTrajectory(ltraj2);
             drive.followTrajectory(ltraj3);
             }
-        */
 
-        drive.followTrajectory(midtraj1);
-        sleep(300);
-        drive.followTrajectory(midtraj2);
-        drive.followTrajectory(midtraj3);
-        drive.followTrajectory(midtraj4);
         drive.followTrajectory(traj5);
         drive.followTrajectory(traj6);
         drive.followTrajectory(traj7);

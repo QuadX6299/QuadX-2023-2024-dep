@@ -69,22 +69,53 @@ public class BlueRedGrid extends LinearOpMode {
                 .build();
 
         Trajectory midtraj5 = drive.trajectoryBuilder(midtraj4.end())
-                .splineToConstantHeading(new Vector2d(110,35), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(100,25), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     servoOuttake.setPosition(0.4);
                 })
                 .build();
 
         TrajectorySequence midtraj6 = drive.trajectorySequenceBuilder(midtraj5.end())
-                .turn(Math.toRadians(90))
+                .turn(Math.toRadians(-90))
+                .build();
+
+        Trajectory midtraj7 = drive.trajectoryBuilder(midtraj6.end())
+                .back(1)
                 .addTemporalMarker(2, () -> {
-                    et.reset();
-                    while (et.milliseconds() < 500) {
-                        liftLeft.setPower(1);
-                        liftRight.setPower(1);
-                    }
+                            et.reset();
+                            while (et.milliseconds() < 600) {
+                                liftLeft.setPower(1);
+                                liftRight.setPower(1);
+                            }
+                        })
+                        .build();
+
+        Trajectory midtraj8 = drive.trajectoryBuilder(midtraj7.end())
+                .forward(3)
+                .addDisplacementMarker(() -> {
+                    servoOuttake.setPosition(0.6);
                 })
                 .build();
+
+        Trajectory midtraj9 = drive.trajectoryBuilder(midtraj8.end())
+                .forward(5)
+                .addDisplacementMarker(() -> {
+                    servoOuttake.setPosition(0.4);
+                })
+                .build();
+
+        Trajectory midtraj10 = drive.trajectoryBuilder(midtraj9.end())
+                .strafeRight(20)
+                .addTemporalMarker(2, () -> {
+                    et.reset();
+                     while (et.milliseconds() < 800) {
+                         liftLeft.setPower(-1);
+                         liftRight.setPower(-1);
+                        }
+                    })
+                .build();
+
+
 
         waitForStart();
         drive.followTrajectory(midtraj1);
@@ -95,6 +126,10 @@ public class BlueRedGrid extends LinearOpMode {
         drive.followTrajectory(midtraj5);
         drive.followTrajectory(midtraj5);
         drive.followTrajectorySequence(midtraj6);
+        drive.followTrajectory(midtraj7);
+        drive.followTrajectory(midtraj8);
+        drive.followTrajectory(midtraj9);
+        //drive.followTrajectory(midtraj10);
 
     }
 
