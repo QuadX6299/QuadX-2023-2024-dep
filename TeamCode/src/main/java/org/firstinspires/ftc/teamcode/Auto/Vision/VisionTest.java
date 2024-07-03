@@ -10,15 +10,12 @@ import java.util.Timer;
 public class VisionTest extends LinearOpMode {
 
     HuskyVision huskey;
-    private ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
         huskey = new HuskyVision(this);
-        int pos =  10;
-        double currTime = 0;
+        int pos = huskey.redPropPos();
 
-        pos = huskey.bluePropPos();
         telemetry.addData("Position:", pos);
         telemetry.update();
 

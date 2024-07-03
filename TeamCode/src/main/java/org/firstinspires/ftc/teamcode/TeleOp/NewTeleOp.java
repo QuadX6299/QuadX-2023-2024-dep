@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class NewTeleOp extends OpMode {
     private DcMotor fl;
@@ -18,7 +17,7 @@ public abstract class NewTeleOp extends OpMode {
     private Servo servoOuttake;
     private Servo LEDS;
     private Servo Launcher;
-    ElapsedTime time = new ElapsedTime();
+    private Servo counterWeight;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
@@ -31,6 +30,7 @@ public abstract class NewTeleOp extends OpMode {
         servoOuttake = hardwareMap.servo.get("servoOuttake");
         LEDS = hardwareMap.servo.get("LED");
         Launcher = hardwareMap.servo.get("Launcher");
+        counterWeight = hardwareMap.servo.get("weight");
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
@@ -52,7 +52,7 @@ public abstract class NewTeleOp extends OpMode {
     public void mechMovement() {
         float drive = gamepad1.left_stick_y;
         float turn = -gamepad1.right_stick_x;
-        float strafe = gamepad1.left_stick_x;
+        float strafe = -gamepad1.left_stick_x;
         float intakeSpeed;
         double liftSpeed;
 
@@ -95,30 +95,24 @@ public abstract class NewTeleOp extends OpMode {
             servoOuttake.setPosition(0.4);
             telemetry.addData("Servo position: Close -", servoOuttake.getPosition());
         } else if (gamepad2.a) {
-            servoOuttake.setPosition(0.75);
+            servoOuttake.setPosition(0.6);
             telemetry.addData("Servo position: Open -", servoOuttake.getPosition());
         }
 
+        if (gamepad1.a) {
+            counterWeight.setPosition(0.2);
+        }
+        if (gamepad1.b) {
+            counterWeight.setPosition(0.6);
+        }
 
         if(gamepad1.x){ //Launch the paper airplane
-            Launcher.setPosition(1);
+            Launcher.setPosition(0.2);
         }
         if(gamepad1.y){
-            Launcher.setPosition(0);
+            Launcher.setPosition(0.7);
         }
 
-
-
-
-        fl.setPower(flPower);
-        fr.setPower(frPower);
-        bl.setPower(blPower);
-        br.setPower(brPower);
-        intake.setPower(intakeSpeed);
-        liftLeft.setPower(liftSpeed);
-        liftRight.setPower(liftSpeed);
-    }
-    public void LEDFunction() {
         if (gamepad2.dpad_down){
             LEDS.setPosition(0.68); //Yellow
         }
@@ -135,83 +129,12 @@ public abstract class NewTeleOp extends OpMode {
             LEDS.setPosition(0.775); //Off Position
         }
 
-        /*
-        if(gamepad2.left_stick_x > 0.5){  //White-White Pulse. (Right)
-            time.reset();
-            while (time.milliseconds() < 1500) {
-            LEDS.setPosition(0.7725); //White
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-            LEDS.setPosition(0.775); //Off Position
-            }
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.7725); //White
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-
-    }
-        if(gamepad2.left_stick_x < -0.5){  //Green-White Pulse. (Left)
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.71); //Green
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.7725); //White
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-
-        }
-        if(gamepad2.left_stick_y > 0.5){  //Purple-White Pulse. (Up)
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.71); //Green
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.7725); //White
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-
-        }
-        if(gamepad2.left_stick_y < -0.5){  //Yellow-White Pulse (Down)
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.68); //Green
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-            time.reset();
-            while (time.milliseconds() < 1500) {
-                LEDS.setPosition(0.7725); //White
-            }
-            time.reset();
-            while (time.milliseconds() < 500) {
-                LEDS.setPosition(0.775); //Off Position
-            }
-
-        }
-         */
+        fl.setPower(flPower);
+        fr.setPower(frPower);
+        bl.setPower(blPower);
+        br.setPower(brPower);
+        intake.setPower(intakeSpeed);
+        liftLeft.setPower(liftSpeed);
+        liftRight.setPower(liftSpeed);
     }
 }

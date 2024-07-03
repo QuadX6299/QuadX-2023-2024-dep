@@ -47,13 +47,13 @@ public class RedRedGrid extends LinearOpMode {
         drive.setPoseEstimate(startPose);
         // Right Spike
         Trajectory rtraj1 = drive.trajectoryBuilder(startPose)
-                .splineToConstantHeading(new Vector2d(38, -36), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(35, -36), Math.toRadians(90))
                 .addTemporalMarker(1.5, () -> {
                     intake.setPower(-0.4);
                 })
                 .build();
         Trajectory rtraj2 = drive.trajectoryBuilder(rtraj1.end(), false)
-                .lineToConstantHeading(new Vector2d(38, -60))
+                .lineToConstantHeading(new Vector2d(35, -60))
                 .addDisplacementMarker(() -> {
                     intake.setPower(0);
                 })
@@ -122,7 +122,7 @@ public class RedRedGrid extends LinearOpMode {
         //omni
         Pose2d aPose = new Pose2d(57, -32, Math.toRadians(180));
         Trajectory traj5 = drive.trajectoryBuilder(aPose)
-                .back(5)
+                .back(3)
                 .addTemporalMarker(2, () -> {
                     et.reset();
                     while (et.milliseconds() < 500) {
@@ -165,18 +165,18 @@ public class RedRedGrid extends LinearOpMode {
 
         waitForStart();
 
-        if((num < 0) && (num > -100)) {
-            drive.followTrajectory(midtraj1);
-            sleep(300);
-            drive.followTrajectory(midtraj2);
-            drive.followTrajectory(midtraj3);
-            drive.followTrajectory(midtraj4);
-        } else if (num > 0) {
+        if((num <= 0) && (num > -100)) {
             drive.followTrajectory(rtraj1);
             sleep(300);
             drive.followTrajectory(rtraj2);
             drive.followTrajectory(rtraj3);
             drive.followTrajectory(rtraj4);
+        } else if (num > 0) {
+            drive.followTrajectory(midtraj1);
+            sleep(300);
+            drive.followTrajectory(midtraj2);
+            drive.followTrajectory(midtraj3);
+            drive.followTrajectory(midtraj4);
         } else {
             drive.followTrajectory(ltraj1);
             drive.followTrajectorySequence(lts1);

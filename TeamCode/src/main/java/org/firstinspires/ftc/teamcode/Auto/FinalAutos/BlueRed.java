@@ -41,7 +41,7 @@ public class BlueRed extends LinearOpMode {
                 .back(10)
                 .build();
         Trajectory traj3 = drive.trajectoryBuilder(traj2.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeLeft(30)
+                .strafeRight(30)
                 .build();
         Trajectory traj4 = drive.trajectoryBuilder(traj3.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
                 .forward(34)
@@ -51,25 +51,28 @@ public class BlueRed extends LinearOpMode {
                 .build();
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end().plus(new Pose2d(0, 0, Math.toRadians(90))), false)
                 .forward(38)
+                .addDisplacementMarker(() -> {
+                    servoOuttake.setPosition(0.4);
+                })
                 .build();
-        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(86))), false)
+        Trajectory traj7 = drive.trajectoryBuilder(traj6.end().plus(new Pose2d(0, 0, Math.toRadians(90))), false)
                 .back(18.5)
                 .addTemporalMarker(2, () -> {
                     et.reset();
-                    while (et.milliseconds() < 65) {
-                        liftLeft.setPower(0.6);
-                        liftRight.setPower(0.6);
+                    while (et.milliseconds() < 55) {
+                        liftLeft.setPower(0.5);
+                        liftRight.setPower(0.5);
                     }
                 })
                 .build();
         Trajectory traj8 = drive.trajectoryBuilder(traj7.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .back(1)
+                .forward(1)
                 .addTemporalMarker(2, () -> {
-                    servoOuttake.setPosition(0.75);
+                    servoOuttake.setPosition(0.6);
                 })
                 .build();
         Trajectory traj11 = drive.trajectoryBuilder(traj8.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .forward(6.5)
+                .forward(2)
                 .addTemporalMarker(1.5, () -> {
                     servoOuttake.setPosition(0.4);
                 })
@@ -78,17 +81,17 @@ public class BlueRed extends LinearOpMode {
                 .forward(4)
                 .addTemporalMarker(1, () -> {
                     et.reset();
-                    while (et.milliseconds() < 55) {
+                    while (et.milliseconds() < 58) {
                         liftLeft.setPower(-0.5);
                         liftRight.setPower(-0.5);
                     }
                 })
                 .build();
         Trajectory traj13 = drive.trajectoryBuilder(traj12.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .strafeRight(40)
+                .strafeLeft(40)
                 .build();
         Trajectory traj14 = drive.trajectoryBuilder(traj13.end().plus(new Pose2d(0, 0, Math.toRadians(0))), false)
-                .back(30)
+                .back(10)
                 .build();
 
         waitForStart();
