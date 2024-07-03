@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -22,13 +23,15 @@ public class BlueBlueGrid extends LinearOpMode {
     private DcMotor liftRight;
     private Servo servoOuttake;
     private DcMotor intake;
+    private CRServo outtakeWheel;
 
     ElapsedTime et = new ElapsedTime();
     public void init (LinearOpMode opMode) throws InterruptedException {
         liftLeft = opMode.hardwareMap.dcMotor.get("liftLeft");
         liftRight = opMode.hardwareMap.dcMotor.get("liftRight");
-        servoOuttake = opMode.hardwareMap.servo.get("servoOuttake");
+        servoOuttake = opMode.hardwareMap.servo.get("outtakeAngler");
         intake = opMode.hardwareMap.dcMotor.get("intakeMotor");
+        outtakeWheel = opMode.hardwareMap.crservo.get("servoOuttake");
 
         liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -134,7 +137,8 @@ public class BlueBlueGrid extends LinearOpMode {
         Trajectory traj6 = drive.trajectoryBuilder(traj5.end())
                 .back(2)
                 .addDisplacementMarker(() -> {
-                    servoOuttake.setPosition(0.6);
+                    servoOuttake.setPosition(0.7);
+                    outtakeWheel.setPower(1);
                 })
                 .build();
         Trajectory traj7 = drive.trajectoryBuilder(traj6.end())
@@ -150,6 +154,10 @@ public class BlueBlueGrid extends LinearOpMode {
                 .build();
         Trajectory traj8 = drive.trajectoryBuilder(traj7.end())
                 .forward(4)
+                .addDisplacementMarker(() -> {
+                    outtakeWheel.setPower(0);
+
+                })
                 .build();
         Trajectory traj9 = drive.trajectoryBuilder(traj8.end())
                 .strafeRight(50)

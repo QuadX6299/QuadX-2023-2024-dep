@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
+import com.qualcomm.hardware.rev.RevTouchSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,66 +11,72 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public abstract class CompTeleOp extends OpMode {
     private DcMotor fl;
     private DcMotor fr;
     private DcMotor bl;
     private DcMotor br;
-    private DcMotor intake;
-    private DcMotor liftLeft;
-    private DcMotor liftRight;
-    private CRServo servoOuttake;
-    private Servo outtakeAngler;
-    private Servo LEDS;
     private Servo launcher;
-
-    private ElapsedTime et = new ElapsedTime();
-
+    private BNO055IMU imu;
+    private  RevTouchSensor TouchAgony_R;
+    private  RevTouchSensor TouchTundra_L;
+     private Rev2mDistanceSensor Seeker_Dist;
+   //private RevColorSensorV3 Chroma_Color;
 
     public void init() {
         fl = hardwareMap.dcMotor.get("fl");
         fr = hardwareMap.dcMotor.get("fr");
         bl = hardwareMap.dcMotor.get("bl");
         br = hardwareMap.dcMotor.get("br");
-        intake = hardwareMap.dcMotor.get("intakeMotor");
-        liftLeft = hardwareMap.dcMotor.get("liftLeft");
-        liftRight = hardwareMap.dcMotor.get("liftRight");
-        servoOuttake = hardwareMap.crservo.get("servoOuttake");
-        outtakeAngler = hardwareMap.servo.get("outtakeAngler");
-        LEDS = hardwareMap.servo.get("LED");
-        launcher = hardwareMap.servo.get("Launcher");
-        //counterWeight = hardwareMap.servo.get("weight");
+        TouchAgony_R = (RevTouchSensor) hardwareMap.touchSensor.get("TouchAgony");
+        TouchTundra_L = (RevTouchSensor) hardwareMap.touchSensor.get("TouchTundra");
+        Seeker_Dist = (Rev2mDistanceSensor) hardwareMap.get("Seekers");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        //Chroma_Color = (RevColorSensorV3) hardwareMap.colorSensor.get("Chroma");
 
         fl.setDirection(DcMotor.Direction.FORWARD);
         fr.setDirection(DcMotor.Direction.REVERSE);
         bl.setDirection(DcMotor.Direction.FORWARD);
         br.setDirection(DcMotor.Direction.REVERSE);
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        liftRight.setDirection(DcMotorSimple.Direction.REVERSE);
-        servoOuttake.setDirection(CRServo.Direction.FORWARD);
 
-        fl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        fr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bl.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        br.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        fl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        fr.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bl.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        br.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // You can create this file using the FTC Robot Controller app
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
     }
 
     public void mechMovement() {
         float drive = gamepad1.left_stick_y;
-        float turn = -gamepad1.right_stick_x;
-        float strafe = -gamepad1.left_stick_x;
-        float intakeSpeed;
-        double liftSpeed;
+        float turn = gamepad1.right_stick_x;
+        float strafe = gamepad1.left_stick_x;
 
-        double flPower = Range.clip(drive + turn + strafe, -1.0, 1.0);
-        double frPower = Range.clip(drive - turn - strafe, -1.0, 1.0);
-        double blPower = Range.clip(drive + turn - strafe, -1.0, 1.0);
-        double brPower = Range.clip(drive - turn + strafe, -1.0, 1.0);
+        double readings = imu.getAngularOrientation().firstAngle;
+        double error = (0 - readings);
+
+        double multiplier = (error * 0.6);
+
+        double flPower = Range.clip(drive + (multiplier * turn) - strafe, -1.0, 1.0);
+        double frPower = Range.clip(drive - (multiplier * turn) + strafe, -1.0, 1.0);
+        double blPower = Range.clip(drive + (multiplier * turn) + strafe, -1.0, 1.0);
+        double brPower = Range.clip(drive - (multiplier * turn) - strafe, -1.0, 1.0);
+
+        //strafe values are caculated differently to adjust for back wheel rotations
+        //being much higher than front wheels.
 
         if (gamepad1.right_trigger > 0.0) { //Slo-Mode drive
             flPower *= 0.5;
@@ -82,58 +92,28 @@ public abstract class CompTeleOp extends OpMode {
             brPower *= 0.25;
         }
 
-        if (gamepad2.right_trigger > 0.0) { //Lift Controls
-            liftSpeed = 1;
-        } else if (gamepad2.left_trigger > 0.0) {
-            liftSpeed = -1;
-        } else {
-            liftSpeed = 0;
+        if (TouchAgony_R.isPressed()){
+            telemetry.addData("Agony(Right)",1);
+
+        } else{
+            telemetry.addData("Agony(Right)",0);
         }
 
-        if (gamepad2.right_bumper) { //Intake Controls
-            intakeSpeed = 1;
-        } else if (gamepad2.left_bumper) {
-            intakeSpeed = -1;
-        } else {
-            intakeSpeed = 0;
+        if (TouchTundra_L.isPressed()){
+            telemetry.addData("Tundra(Left)",1);
+
+        } else{
+            telemetry.addData("Tundra(Left)",0);
         }
 
-        if(gamepad1.x){
-            launcher.setPosition(1);
-        } else if (gamepad1.y){
-            launcher.setPosition(0);
-        }
-
-        if (gamepad2.x) { //Outtake controls
-            outtakeAngler.setPosition(0.78);
-        } else {
-            outtakeAngler.setPosition(0.95);
-        }
-
-        if (gamepad2.a) {
-            et.reset();
-            while (et.milliseconds() < 500) {
-                servoOuttake.setPower(0);
-            }
-        } else if (gamepad2.b) {
-            et.reset();
-            while (et.milliseconds() < 1000) {
-                servoOuttake.setPower(-1);
-            }
-        } else if (gamepad2.x){
-            et.reset();
-            while (et.milliseconds() < 1000) {
-                servoOuttake.setPower(1);
-            }
-        }
-
+         telemetry.addData("DistanceSensor",Seeker_Dist.getDistance(DistanceUnit.CM));
+        //telemetry.addData("Color_Red",Chroma_Color.red());
+        //telemetry.addData("Color_Blue",Chroma_Color.blue());
+        //telemetry.addData("Color_Green",Chroma_Color.green())
 
         fl.setPower(flPower);
         fr.setPower(frPower);
         bl.setPower(blPower);
         br.setPower(brPower);
-        intake.setPower(intakeSpeed);
-        liftLeft.setPower(liftSpeed);
-        liftRight.setPower(liftSpeed);
     }
 }
